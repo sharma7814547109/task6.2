@@ -3,114 +3,114 @@ pipeline {
     
     environment {
         EMAIL_RECIPIENT = 'alphatushar1912@gmail.com'
-        USER_EMAIL = 'alphatushar1912@gmail.com'
+        USER_EMAIL = 'alphatushar1912@gmail.com'  // Fixed typo
     }
-    
+
     stages {
-        stage('Build Application') {
+        stage('Build') {
             steps {
-                echo 'Initiating build process...'
+                echo 'Building the application...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Build Process Finished',
-                         body: 'The build phase has been completed. Please check Jenkins logs for more details.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Build Stage Completed',
+                         body: 'The build stage has completed. Check Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Execute Tests') {
+
+        stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Testing Phase Finished',
-                         body: 'Unit and integration tests have been executed. Refer to logs for insights.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Unit and Integration Tests Completed',
+                         body: 'The unit and integration tests have completed. Check Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Code Review') {
+
+        stage('Code Analysis') {
             steps {
                 echo 'Performing static code analysis...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Code Review Completed',
-                         body: 'Static code analysis has been completed. Review logs for more details.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Code Analysis Completed',
+                         body: 'The code analysis stage has completed. Check Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Security Evaluation') {
+
+        stage('Security Scan') {
             steps {
-                echo 'Conducting security scans...'
+                echo 'Performing security scan...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Security Evaluation Done',
-                         body: 'Security scanning has been performed. Check logs for outcomes.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Security Scan Completed',
+                         body: 'The security scan has completed. Check the Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Staging Release') {
+
+        stage('Deploy to Staging') {
             steps {
-                echo 'Deploying application to staging...'
+                echo 'Deploying to staging environment...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Staging Deployment Completed',
-                         body: 'Application has been deployed to staging. Review logs for details.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Deployment to Staging Completed',
+                         body: 'Deployment to the staging environment has completed. Check Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Staging Tests') {
+
+        stage('Integration Tests on Staging') {
             steps {
-                echo 'Executing tests on staging environment...'
+                echo 'Running integration tests on staging...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Staging Tests Completed',
-                         body: 'Tests on the staging environment have finished. Check logs for more info.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Integration Tests on Staging Completed',
+                         body: 'Integration tests on staging have completed. Check Jenkins logs for details.'
                 }
             }
         }
-        
-        stage('Production Deployment') {
+
+        stage('Deploy to Production') {
             steps {
-                echo 'Deploying to production environment...'
+                echo 'Deploying to production...'
             }
             post {
                 always {
-                    mail to: NOTIFY_EMAIL,
-                         subject: 'Production Deployment Completed',
-                         body: 'Deployment to production has been executed. Review Jenkins logs for confirmation.'
+                    mail to: "$USER_EMAIL",
+                         subject: 'Deployment to Production Completed',
+                         body: 'Deployment to production has completed. Check Jenkins logs for details.'
                 }
             }
         }
     }
-    
+
     post {
         success {
             echo 'Pipeline executed successfully!'
-            mail to: NOTIFY_EMAIL,
+            mail to: "$USER_EMAIL",
                  subject: 'Pipeline Execution Successful',
-                 body: 'The entire pipeline has been completed successfully!'
+                 body: 'The entire pipeline has completed successfully.'
         }
         failure {
-            echo 'Pipeline execution failed. Investigate logs for more details.'
-            mail to: NOTIFY_EMAIL,
+            echo 'Pipeline failed! Check the logs for more details.'
+            mail to: "$USER_EMAIL",
                  subject: 'Pipeline Execution Failed',
-                 body: 'The pipeline encountered an error. Check Jenkins logs for debugging.'
+                 body: 'The pipeline has failed. Please check the Jenkins logs for more details.'
         }
     }
 }
